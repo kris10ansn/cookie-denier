@@ -1,0 +1,18 @@
+{
+    "$schema": "https://json.schemastore.org/chrome-manifest",
+    "name": "Cookie denier",
+    "short_name": "cookiedenier",
+    "version": "1.0.0",
+    "description": "Denies cookies and objects legitimate interests from common actors",
+
+    "host_permissions": ["*://*/*"],
+
+    "content_scripts": [
+        {
+            "matches": ["*://*/*"],
+            "js": ["content-script.bundle.js"]
+        }
+    ],
+
+    "manifest_version": 3
+}
