@@ -1,57 +1,5 @@
-const xpathSelector = (element: Node, expression: string) => {
-    const result = window.document.evaluate(expression, element);
-    return result.iterateNext();
-};
-
-const click = (selector: string) =>
-    new Promise<void>((resolve, reject) => {
-        let element = null;
-
-        if (selector.indexOf("//") === 0) {
-            element = xpathSelector(window.document, selector);
-        } else {
-            element = document.querySelector(selector);
-        }
-
-        if (!(element instanceof HTMLElement))
-            return reject("Element not found");
-
-        element.click();
-        resolve();
-    });
-
-const sleep = (time: number) =>
-    new Promise<void>((resolve) => {
-        setTimeout(() => resolve(), time);
-    });
-
-type Denier = (prefix: string) => Promise<void>;
-
-const IAB: Denier = (prefix: string) =>
-    new Promise(async (resolve, reject) => {
-        const log =
-            (...args: any[]) =>
-            () =>
-                console.log(prefix, ...args);
-
-        const container = window.document.querySelector(
-            "div#qc-cmp2-container"
-        ) as HTMLDivElement;
-
-        if (container === null) return reject("");
-
-        click("//button[text()='MORE OPTIONS']").then(log("moreoptions"));
-        await sleep(75);
-        click("//button[text()='REJECT ALL']").then(log("rejectall"));
-        await sleep(75);
-        click("//button[text()='LEGITIMATE INTEREST ']").then(log("legintr"));
-        await sleep(75);
-        click("//button[text()='OBJECT ALL']").then(log("objectall"));
-        await sleep(75);
-        click("//button[text()='SAVE & EXIT']").then(log("save&exit"));
-
-        resolve();
-    });
+import IAB from "./deniers/IAB-denier";
+import { sleep } from "./util/util";
 
 window.addEventListener("load", async () => {
     await sleep(175);
