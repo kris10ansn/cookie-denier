@@ -3,7 +3,7 @@ import { sleep } from "../util/util";
 import { Denier } from "./denier";
 
 const IAB: Denier = (prefix: string) =>
-    new Promise(async (resolve, reject) => {
+    new Promise(async (resolve, _reject) => {
         const log =
             (...args: any[]) =>
             () =>
@@ -13,7 +13,7 @@ const IAB: Denier = (prefix: string) =>
             "div#qc-cmp2-container"
         ) as HTMLDivElement;
 
-        if (container === null) return reject("");
+        if (container === null) return;
 
         click("//button[text()='MORE OPTIONS']").then(log("moreoptions"));
         await sleep(75);
